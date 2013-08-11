@@ -1,0 +1,36 @@
+{
+  "name": "secure-storage-js",
+  "version": "0.0.0",
+  "description": "Pure JS implementation of SecureStorage API",
+  "scripts": {
+    "test": "grunt build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bealearts/secure-storage-js.git"
+  },
+  "keywords": [
+    "secure",
+    "javascript",
+    "storage",
+    "localStorage"
+  ],
+  "author": "David Beale",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/bealearts/secure-storage-js/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-bower-task": "~0.2.3",
+    "temporary": "0.0.5"
+  }
+}
