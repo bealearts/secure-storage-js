@@ -6,11 +6,11 @@
 
 	global.Cypher = global.Cypher || {};
 	global.Cypher.AES_128 = global.Cypher.AES_128 || {
-		encypt: function (item, secretKey)
+		encrypt: function (item, secureKey)
 		{
 			return item;
 		},
-		decrypt: function (item, secretKey)
+		decrypt: function (item, secureKey)
 		{
 			return item;
 		}
@@ -21,31 +21,32 @@
 	{
 		global.openSecureStorage = function(storeName, cypher, secureKey, callBack)
 		{
-			callBack(new SecureStorage(storeName, cypher, secureKey));
-		};
-	}
-
-
-
-	function SecureStore(storeName, cypher, secureKey)
-	{
-		this.getItem = function(key)
-		{
-			var store = readStore(storeName, cypher, secureKey);
-
-			return store[key];
-		};
-
-		this.setItem = function(key, item)
-		{
+			// Open the Store
 			var store = readStore(storeName, cypher, secureKey);
 
 			if (!store)
 				store = {};
 
-				store[key] = item;
+			// Allow access to read/write
+			callBack(new SecureStore(store));
 
-			writeStore(storeName, cypher, secureKey, store); 
+			// Close the store
+			writeStore(storeName, cypher, secureKey, store);
+		};
+	}
+
+
+
+	function SecureStore(store)
+	{
+		this.getItem = function(key)
+		{
+			return store[key];
+		};
+
+		this.setItem = function(key, item)
+		{
+			store[key] = item; 
 		};
 	}
 
@@ -55,9 +56,9 @@
 
 	var SECURE_STORE_PREFIX = 'securedStore_';
 
-	function readStore(storeName, cypher, securityKey)
+	function readStore(storeName, cypher, secureKey)
 	{
-		var raw - localStorage[SECURE_STORE_PREFIX+storeName];
+		var raw = localStorage[SECURE_STORE_PREFIX+storeName];
 
 		if (raw)
 			return JSON.parse( cypher.decrypt(raw, secureKey) );

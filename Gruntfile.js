@@ -69,10 +69,10 @@ module.exports = function(grunt) {
 
   // Tasks
   grunt.registerTask('build', [
-        'clean',
-        'copy',
-        'bower',
-        'concat'
+        'clean'//,
+        //'copy',
+        //'bower',
+        //'concat'
   ]);
 
   grunt.registerTask('deploy', [
