@@ -3,6 +3,8 @@
   <head>
   	<title>Secure Storage JS</title>
 
+	<script src="../bower_components/cryptico/cryptico.js"></script>
+
   	<script src="secure-storage.js"></script>
 
 
@@ -11,11 +13,18 @@
   		function init()
   		{
 
-  			openSecureStorage('test', Cypher.AES_128, 'somepassword', function (store){
+  			var key = sha256.hex('somepassword');
+
+  			// Test locking
+  			//localStorage.setItem('securedStore_test4_locked', 'true');
+
+  			openSecureStorage('test4', Cypher.AES_256, key, function (store){
 
   				console.log( store.getItem('akey') );
   				store.setItem('akey', 'Hello world');
   				console.log( store.getItem('akey') );
+
+  				console.log( localStorage.getItem('securedStore_test4') );
   			});
 
   		}
