@@ -12,13 +12,14 @@
 
   		function init()
   		{
+			removeSecureStorage('test4');			
 
   			var key = sha256.hex('somepassword');
 
   			// Test locking
   			//localStorage.setItem('securedStore_test4_locked', 'true');
 
-  			openSecureStorage('test4', Cypher.AES_256, key, function (store){
+  			openSecureStorage('test4', AES_256, key, function (store){
 
   				console.log( store.getItem('akey') );
   				store.setItem('akey', 'Hello world');
@@ -27,8 +28,10 @@
   				console.log( localStorage.getItem('securedStore_test4') );
   			});
 
-  		}
-
+			openSecureStorage('test4', AES_256, key, function(store){
+				console.log( store.getItem('akey') );
+			});
+		}
   	</script>
 
   </head>

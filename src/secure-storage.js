@@ -1,12 +1,14 @@
+"use strict"; 
+
 /**
  * Pure JS implementation of SecureStorage API
  * as proposed by http://www.nczonline.net/blog/2010/04/13/towards-more-secure-client-side-data-storage/
  */
 (function (global) {
 
-	global.Cypher = global.Cypher || {};
+
 	
-	global.Cypher.AES_128 = global.Cypher.AES_128 || {
+	global.AES_128 = global.AES_128 || {
 		convertKey: function(key)
 		{
 			return cryptico.string2bytes(key).slice(0, 16);
@@ -21,7 +23,7 @@
 		}
 	};
 
-	global.Cypher.AES_192 = global.Cypher.AES_192 || {
+	global.AES_192 = global.AES_192 || {
 		convertKey: function(key)
 		{
 			return cryptico.string2bytes(key).slice(0, 24);
@@ -36,7 +38,7 @@
 		}
 	};
 
-	global.Cypher.AES_256 = global.Cypher.AES_256 || {
+	global.AES_256 = global.AES_256 || {
 		convertKey: function(key)
 		{
 			return cryptico.string2bytes(key).slice(0, 32);
@@ -61,21 +63,46 @@
 				openStore(storeName, cypher, key, callBack)
 			}, 0), 1);
 		};
-	}
 
+
+
+		global.removeSecureStorage = function(storeName)
+		{
+
+			lock(storeName, function() {
+			
+				removeStore(storeName);
+			});	
+		}
+	}
 
 
 	function SecureStore(store)
 	{
 		this.getItem = function(key)
 		{
-			return store[key];
+			var raw = store[key];
+			
+			if (raw)	
+				return JSON.parse(raw);
+			else
+				return null;
 		};
 
 		this.setItem = function(key, item)
 		{
-			store[key] = item; 
+			store[key] = JSON.stringify(item); 
 		};
+	
+		this.removeItem = function(key)
+		{
+			delete store[item];
+		}	
+
+		
+		/* PRIVATE */
+	
+		var items = 0;
 	}
 
 
@@ -98,10 +125,25 @@
 			store = {};
 
 		// Allow access to read/write items
-		callBack(new SecureStore(store));
+		try
+		{
+			callBack(new SecureStore(store));
+		}
+		catch (error)
+		{
+			console.log(error)
+		}
+		finally
+		{
+			// Close the store
+			writeStore(storeName, cypher, secureKey, store);
+		}		
+	}
 
-		// Close the store
-		writeStore(storeName, cypher, secureKey, store);
+
+	function removeStore(storeName)
+	{
+		localStorage.removeItem(SECURE_STORE_PREFIX+storeName);	
 	}
 
 
@@ -158,7 +200,7 @@
 	}
 
 
-}.call({}, this));
+}(this));
 
 
 
