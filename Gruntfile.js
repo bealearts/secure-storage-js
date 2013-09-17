@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 
 
   // Temp dir
@@ -21,7 +22,7 @@ module.exports = function(grunt) {
       build: {
         src: ['build']
       }
-    }//,
+    },
     // bower: {
     //   build: {
     //     options: {
@@ -63,16 +64,28 @@ module.exports = function(grunt) {
     //       tasks: 'build'
     //   }
     // }
+
+    jasmine: {
+      test: {
+        src: 'src/**/*.js',
+        options: {
+          specs: 'test/specs/*Spec.js',
+          vendor: 'bower_components/cryptico/cryptico.js',
+          keepRunner: true
+        }
+      }
+    }
   });
 
 
 
   // Tasks
   grunt.registerTask('build', [
-        'clean'//,
+        'clean',
         //'copy',
         //'bower',
         //'concat'
+        'jasmine'
   ]);
 
   grunt.registerTask('deploy', [
