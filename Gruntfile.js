@@ -71,7 +71,7 @@ module.exports = function(grunt) {
         options: {
           specs: 'test/specs/*Spec.js',
           vendor: 'bower_components/cryptico/cryptico.js',
-          keepRunner: true
+          keepRunner: false
         }
       }
     }
