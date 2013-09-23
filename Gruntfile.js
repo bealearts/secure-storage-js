@@ -23,15 +23,6 @@ module.exports = function(grunt) {
         src: ['build']
       }
     },
-    // bower: {
-    //   build: {
-    //     options: {
-    //       targetDir: 'build/lib',
-    //       copy: true,
-    //       cleanBowerDir: true
-    //     } 
-    //   }
-    // },
     // copy: {
     //   build: {
     //     files: [
@@ -83,7 +74,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
         'clean',
         //'copy',
-        //'bower',
         //'concat'
         'jasmine'
   ]);
