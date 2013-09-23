@@ -16,3 +16,10 @@ Example Usage
 
 		store.setItem('counter', counter);
 	});
+
+Installation
+------------
+
+    bower install secure-storage-js --save
+    
+
