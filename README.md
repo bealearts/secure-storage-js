@@ -2,7 +2,7 @@ secure-storage-js [![Build Status](https://travis-ci.org/bealearts/secure-storag
 =================
 Pure JS implementation of SecureStorage API as proposed by http://www.nczonline.net/blog/2010/04/13/towards-more-secure-client-side-data-storage/
 
-> Allows the secure client side storage of data within the browser 
+> Allows the secure storage of client side data within the browser 
 
 Example Usage
 -------------
