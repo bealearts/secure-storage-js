@@ -4,7 +4,9 @@ describe('The Secure Storage API', function() {
 	var key = '';	
 	
 	beforeEach(function(){
-		key = sha256.hex('somepassword');	
+		password = 'somepassword';
+		key = sjcl.misc.pbkdf2(password, []);
+		key64 = sjcl.codec.base64.fromBits(key);
 	});
 
 	afterEach(function(){
@@ -13,7 +15,7 @@ describe('The Secure Storage API', function() {
 	});	
 	
 	it('can create a Secure Store', function() {
-		openSecureStorage('test', AES_256, key, function(store){
+		openSecureStorage('test', AES_256, key64, function(store){
 			expect(store).toBeDefined();
 
 			var value = store.getItem('aValue');
@@ -25,11 +27,11 @@ describe('The Secure Storage API', function() {
 	});	
 	
 	it('can open an existing Secure Store', function() {
-		openSecureStorage('test', AES_256, key, function(store){
+		openSecureStorage('test', AES_256, key64, function(store){
 			store.setItem('aValue', 'someValue');
 		});
 
-		openSecureStorage('test', AES_256, key, function(store){
+		openSecureStorage('test', AES_256, key64, function(store){
 			expect(store).toBeDefined();
 
 			var value = store.getItem('aValue');
@@ -39,7 +41,7 @@ describe('The Secure Storage API', function() {
 	});	
 
 	it('can remove a Secure Store', function() {
-		openSecureStorage('test', AES_256, key, function(store){
+		openSecureStorage('test', AES_256, key64, function(store){
 			store.setItem('aValue', 'someValue');
 		});
 
@@ -47,5 +49,17 @@ describe('The Secure Storage API', function() {
 
 		var localStore = localStorage.getItem('secureStore_test');
 		expect(localStore).toBeNull();
-	});	
+	});
+
+	it('can requires the same cypher to be used for encrypting and decripting', function() {
+		openSecureStorage('test', AES_256, key64, function(store){
+			store.setItem('aValue', 'someValue');
+		});
+
+		expect(function(){
+			openSecureStorage('test', AES_128, key64, function(store){
+				var value = store.getItem('aValue');
+			});	
+		}).toThrow();		
+	})	
 })

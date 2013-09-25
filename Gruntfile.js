@@ -22,18 +22,6 @@ module.exports = function(grunt) {
         src: ['build']
       }
     },
-    // copy: {
-    //   build: {
-    //     files: [
-    //       {
-    //         expand: true,
-    //         cwd: 'src/',
-    //         src: ['**/.htaccess', 'next-boat/assets/**/*.*', '*.*', 'lib/**/*.*'], 
-    //         dest: 'build/'
-    //       }
-    //     ]
-    //   }
-    // },
     // concat: {
     //   buildJS: {
     //     options: {
@@ -48,23 +36,22 @@ module.exports = function(grunt) {
     //     dest: 'build/next-boat/next-boat.css'
     //   }
     // },
-    // watch: {
-    //   main: {
-    //       files: ['*.*', 'src/**/*.*'],
-    //       tasks: 'build'
-    //   }
-    // }
-
     jasmine: {
       test: {
         src: 'src/**/*.js',
         options: {
           specs: 'test/specs/*Spec.js',
-          vendor: 'bower_components/cryptico/cryptico.js',
-          keepRunner: false
+          vendor: 'bower_components/sjcl/sjcl.js',
+          keepRunner: true
         }
       }
-    }
+    },
+    watch: {
+      main: {
+          files: ['*.*', 'src/**/*.*'],
+          tasks: 'build'
+      }
+    },
   });
 
 
@@ -72,7 +59,6 @@ module.exports = function(grunt) {
   // Tasks
   grunt.registerTask('build', [
         'clean',
-        //'copy',
         //'concat'
         'jasmine'
   ]);

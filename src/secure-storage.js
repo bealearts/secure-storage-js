@@ -6,52 +6,12 @@
  */
 (function (global) {
 
+	/* Cyphers */
+	global.AES_128 = 'AES_128';
 
-	
-	global.AES_128 = global.AES_128 || {
-		convertKey: function(key)
-		{
-			return cryptico.string2bytes(key).slice(0, 16);
-		},
-		encrypt: function (plainText, secureKey)
-		{
-			return cryptico.encryptAESCBC(plainText, secureKey);
-		},
-		decrypt: function (encryptedText, secureKey)
-		{
-			return cryptico.decryptAESCBC(encryptedText, secureKey);
-		}
-	};
+	global.AES_192 = 'AES_192';
 
-	global.AES_192 = global.AES_192 || {
-		convertKey: function(key)
-		{
-			return cryptico.string2bytes(key).slice(0, 24);
-		},
-		encrypt: function (plainText, secureKey)
-		{
-			return cryptico.encryptAESCBC(plainText, secureKey);
-		},
-		decrypt: function (encryptedText, secureKey)
-		{
-			return cryptico.decryptAESCBC(encryptedText, secureKey);
-		}
-	};
-
-	global.AES_256 = global.AES_256 || {
-		convertKey: function(key)
-		{
-			return cryptico.string2bytes(key).slice(0, 32);
-		},
-		encrypt: function (plainText, secureKey)
-		{
-			return cryptico.encryptAESCBC(plainText, secureKey);
-		},
-		decrypt: function (encryptedText, secureKey)
-		{
-			return cryptico.decryptAESCBC(encryptedText, secureKey);
-		}
-	};
+	global.AES_256 = 'AES_256';
 
 
 	if (!global.openSecureStorage)
@@ -116,7 +76,7 @@
 
 	function openStore(storeName, cypher, key, callBack)
 	{		
-		var secureKey = cypher.convertKey(key);
+		var secureKey = sjcl.codec.base64.toBits(key);
 
 		// Open the Store
 		var store = readStore(storeName, cypher, secureKey);
@@ -151,15 +111,22 @@
 	{
 		var raw = localStorage.getItem(SECURE_STORE_PREFIX+storeName);
 
+		var cypherParts = cypher.split('_');
+		var params = {};
+		params.cipher = cypherParts[0].toLowerCase();
+		params.ks = +cypherParts[1];
+
 		if (raw)
+		{
 			try
 			{
-				return JSON.parse( cypher.decrypt(raw, secureKey) );
+				return JSON.parse( sjcl.decrypt(secureKey, raw, params) );
 			}	
 			catch (error)
 			{
 				throw new Error('Could not decrypt store "' + storeName + '"');
 			}
+		}
 		else
 			return {};
 	} 
@@ -167,7 +134,12 @@
 
 	function writeStore(storeName, cypher, secureKey, store)
 	{
-		localStorage.setItem(SECURE_STORE_PREFIX+storeName, cypher.encrypt(JSON.stringify(store), secureKey));
+		var cypherParts = cypher.split('_');
+		var params = {};
+		params.cipher = cypherParts[0].toLowerCase();
+		params.ks = +cypherParts[1];
+
+		localStorage.setItem(SECURE_STORE_PREFIX+storeName, sjcl.encrypt(secureKey, JSON.stringify(store), params));
 	}
 
 
