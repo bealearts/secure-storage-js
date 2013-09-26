@@ -39,7 +39,7 @@ openSecureStorage('myStore', 'MyP4ssw0rd', function(store) {
 });
 
 /**
- * Removeing the the store
+ * Removeing the store
  */
 removeSecureStorage('myStore');
 ```
