@@ -4,7 +4,7 @@ Pure JS implementation of SecureStorage API as inspired by http://www.nczonline.
 
 > Allows the secure storage of client side data within the browser
 
-Encryption provided by [Stanford Javascript Crypto Library](Stanford Javascript Crypto Library) 
+Encryption provided by [Stanford Javascript Crypto Library](http://crypto.stanford.edu/sjcl/) 
 
 Example Usage
 -------------
