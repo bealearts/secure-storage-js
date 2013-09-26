@@ -22,7 +22,8 @@ openSecureStorage('myStore', AES_256, secureKey, function(store) {
 
 	store.setItem('counter', counter);
 });
-
+```
+```js
 /**
  *	Simplified foramt, using a plain text password and AES_256 cypher
  */
@@ -37,7 +38,8 @@ openSecureStorage('myStore', 'MyP4ssw0rd', function(store) {
 
 	store.setItem('counter', counter);
 });
-
+```
+```js
 /**
  * Removeing the store
  */
