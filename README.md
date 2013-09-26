@@ -2,11 +2,12 @@ secure-storage-js [![Build Status](https://travis-ci.org/bealearts/secure-storag
 =================
 Pure JS implementation of SecureStorage API as inspired by http://www.nczonline.net/blog/2010/04/13/towards-more-secure-client-side-data-storage/
 
-> Allows the secure storage of client side data within the browser 
+> Allows the secure storage of client side data within the browser
+
+Encryption provided by [Stanford Javascript Crypto Library](Stanford Javascript Crypto Library) 
 
 Example Usage
 -------------
-
 ```js
 /**
  *	Full format, using a Base64 encoded binary key
