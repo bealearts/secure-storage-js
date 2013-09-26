@@ -51,7 +51,7 @@ describe('The Secure Storage API', function() {
 		expect(localStore).toBeNull();
 	});
 
-	it('can requires the same cypher to be used for encrypting and decripting', function() {
+	it('requires the same cypher to be used for encrypting and decripting', function() {
 		openSecureStorage('test', AES_256, key64, function(store){
 			store.setItem('aValue', 'someValue');
 		});
@@ -61,5 +61,17 @@ describe('The Secure Storage API', function() {
 				var value = store.getItem('aValue');
 			});	
 		}).toThrow();		
-	})	
+	});
+
+	it('supports a simplified usage format using a simple plaintext password, rather than a full Base64 encode key', function() {
+		openSecureStorage('test', password, function(store){
+			expect(store).toBeDefined();
+
+			var value = store.getItem('aValue');
+			expect(value).toBeNull();			
+		});
+
+		var localStore = localStorage.getItem('secureStore_test');
+		expect(localStore).toBeDefined();
+	});	
 })

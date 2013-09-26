@@ -18,9 +18,20 @@
 	{
 		global.openSecureStorage = function(storeName, cypher, key, callBack)
 		{
+			if (arguments.length == 4)
+				var secureKey = sjcl.codec.base64.toBits(key);
+			else if (arguments.length == 3)
+			{
+				var secureKey = cypher;
+				var callBack = key;
+				var cypher = AES_256;
+			}
+			else
+				throw new Error('Expects either 4 or 3 argumetns. Got ' + argumetns.length);	
+
 			// Simulate Async. If waiting on a lock than will really be async!
 			setTimeout(lock(storeName, function() {
-				openStore(storeName, cypher, key, callBack)
+				openStore(storeName, cypher, secureKey, callBack)
 			}, 0), 1);
 		};
 
@@ -76,10 +87,9 @@
 
 	function openStore(storeName, cypher, key, callBack)
 	{		
-		var secureKey = sjcl.codec.base64.toBits(key);
 
 		// Open the Store
-		var store = readStore(storeName, cypher, secureKey);
+		var store = readStore(storeName, cypher, key);
 
 		if (!store)
 			store = {};
@@ -96,7 +106,7 @@
 		finally
 		{
 			// Close the store
-			writeStore(storeName, cypher, secureKey, store);
+			writeStore(storeName, cypher, key, store);
 		}		
 	}
 
