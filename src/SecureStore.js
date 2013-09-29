@@ -1,5 +1,6 @@
 function SecureStore(store)
 {
+
 	this.getItem = function(key)
 	{
 		var raw = store[key];
@@ -12,16 +13,35 @@ function SecureStore(store)
 
 	this.setItem = function(key, item)
 	{
-		store[key] = JSON.stringify(item); 
+		var previous = store[key];
+
+		store[key] = JSON.stringify(item);
+
+		if (!previous)
+			items++; 
 	};
 
 	this.removeItem = function(key)
 	{
-		delete store[item];
+		delete store[key];
+		items--;
 	}	
 
+
+	Object.defineProperty(this, 'length', {
+		get: function () { return items }
+	});
 	
 	/* PRIVATE */
 
 	var items = 0;
+
+	// Count items
+	for (var key in store)
+	{
+		if (store.hasOwnProperty(key))
+			items++;
+	}
+
+	Object.freeze(this);
 }

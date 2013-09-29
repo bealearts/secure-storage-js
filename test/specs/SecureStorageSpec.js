@@ -9,10 +9,12 @@ describe('The Secure Storage API', function() {
 		key64 = sjcl.codec.base64.fromBits(key);
 	});
 
+
 	afterEach(function(){
 		localStorage.removeItem('securedStore_test');
 		localStorage.removeItem('securedStore_test_locked');
 	});	
+
 	
 	it('can create a Secure Store', function() {
 		openSecureStorage('test', AES_256, key64, function(store){
@@ -25,6 +27,7 @@ describe('The Secure Storage API', function() {
 		var localStore = localStorage.getItem('secureStore_test');
 		expect(localStore).toBeDefined();
 	});	
+
 	
 	it('can open an existing Secure Store', function() {
 		openSecureStorage('test', AES_256, key64, function(store){
@@ -40,6 +43,7 @@ describe('The Secure Storage API', function() {
 		});		
 	});	
 
+
 	it('can remove a Secure Store', function() {
 		openSecureStorage('test', AES_256, key64, function(store){
 			store.setItem('aValue', 'someValue');
@@ -50,6 +54,7 @@ describe('The Secure Storage API', function() {
 		var localStore = localStorage.getItem('secureStore_test');
 		expect(localStore).toBeNull();
 	});
+
 
 	it('requires the same cypher to be used for encrypting and decripting', function() {
 		openSecureStorage('test', AES_256, key64, function(store){
@@ -63,6 +68,7 @@ describe('The Secure Storage API', function() {
 		}).toThrow();		
 	});
 
+
 	it('supports a simplified usage format using a simple plaintext password, rather than a full Base64 encode key', function() {
 		openSecureStorage('test', password, function(store){
 			expect(store).toBeDefined();
@@ -73,5 +79,10 @@ describe('The Secure Storage API', function() {
 
 		var localStore = localStorage.getItem('secureStore_test');
 		expect(localStore).toBeDefined();
-	});	
+	});
+
+
+	it('automatically deletes expired stores', function() {
+		expect('Not Implemented').toBeNull();
+	});		
 })

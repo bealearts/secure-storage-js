@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     },
     jasmine: {
       test: {
-        src: 'build/**/*.js',
+        src: ['build/**/*.js', 'src/SecureStore.js'],
         options: {
           specs: 'test/specs/*Spec.js',
           vendor: 'bower_components/sjcl/sjcl.js',
