@@ -22,23 +22,19 @@ module.exports = function(grunt) {
         src: ['build']
       }
     },
-    // concat: {
-    //   buildJS: {
-    //     options: {
-    //       banner: '(function(){\n\n"use strict";\n\nvar module = angular.module(\'next-boat\', []);\n\n',
-    //       footer: '\n\n}.call({}));'
-    //     },
-    //     src: ['src/next-boat/**/*.js'],
-    //     dest: 'build/next-boat/next-boat.js'
-    //   },
-    //   buildCSS: {
-    //     src: ['src/next-boat/**/*.css'],
-    //     dest: 'build/next-boat/next-boat.css'
-    //   }
-    // },
+    concat: {
+      build: {
+        options: {
+          banner: '(function(global){\n\n"use strict";\n\n',
+          footer: '\n\n}(this));'
+        },
+        src: ['src/**/*.js'],
+        dest: 'build/secure-storage.js'
+      }
+    },
     jasmine: {
       test: {
-        src: 'src/**/*.js',
+        src: 'build/**/*.js',
         options: {
           specs: 'test/specs/*Spec.js',
           vendor: 'bower_components/sjcl/sjcl.js',
@@ -59,7 +55,7 @@ module.exports = function(grunt) {
   // Tasks
   grunt.registerTask('build', [
         'clean',
-        //'concat'
+        'concat',
         'jasmine'
   ]);
 
