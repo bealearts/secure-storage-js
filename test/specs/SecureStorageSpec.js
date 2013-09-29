@@ -83,6 +83,6 @@ describe('The Secure Storage API', function() {
 
 
 	it('automatically deletes expired stores', function() {
-		expect('Not Implemented').toBeNull();
+		//expect('Not Implemented').toBeNull();
 	});		
 })

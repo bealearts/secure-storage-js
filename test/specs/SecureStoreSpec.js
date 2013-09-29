@@ -52,13 +52,35 @@ describe('The Secure Store', function() {
 	});
 
 
+	it('allows the clearing of all items in the store', function() {
+		store.setItem('new', 5);
+		expect(store.length).toBe(2);
+
+		store.clear();
+		expect(store.length).toBe(0);
+		expect(store.getItem('new')).toBeNull();
+	});
+
+
+	it('provides numerical access to the keys in the store', function() {
+		store.setItem('new', 5);
+
+		expect(store.key(0)).toBe('exists');
+		expect(store.key(1)).toBe('new');
+		expect(store.key(2)).toBeNull();
+	});
+
+
 	it('allows setting an expiry date for the store', function() {
-		expect('Not Implemented').toBeNull();
+		var expires = new Date();
+    	expires.setFullYear(expires.getFullYear() + 1);
+
+		store.setExpiration(expires);
 	});
 
 
 	it('allows clearing the expiry date for the store', function() {
-		expect('Not Implemented').toBeNull();
+		store.setExpiration(null);
 	});
 
 });

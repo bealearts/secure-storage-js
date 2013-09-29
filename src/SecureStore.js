@@ -11,6 +11,7 @@ function SecureStore(store)
 			return null;
 	};
 
+
 	this.setItem = function(key, item)
 	{
 		var previous = store[key];
@@ -20,6 +21,7 @@ function SecureStore(store)
 		if (!previous)
 			items++; 
 	};
+
 
 	this.removeItem = function(key)
 	{
@@ -32,9 +34,41 @@ function SecureStore(store)
 		get: function () { return items }
 	});
 	
+
+	this.clear = function()
+	{
+		store = {};
+		items = 0;
+	}
+
+
+	this.key = function(index) 
+	{
+		var count = 0;
+		for (var key in store)
+		{
+			if (count == index)
+				return key;
+
+			count++;
+		}
+
+		return null;
+	}
+
+
+	this.setExpiration = function(value)
+	{
+		expires = value;
+	}
+
+
+
 	/* PRIVATE */
 
 	var items = 0;
+
+	var expires = null;
 
 	// Count items
 	for (var key in store)
