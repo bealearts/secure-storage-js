@@ -13,6 +13,7 @@ describe('The Secure Storage API', function() {
 	afterEach(function(){
 		localStorage.removeItem('securedStore_test');
 		localStorage.removeItem('securedStore_test_locked');
+		localStorage.removeItem('securedStore_expires_map');
 	});	
 
 	
@@ -83,6 +84,19 @@ describe('The Secure Storage API', function() {
 
 
 	it('automatically deletes expired stores', function() {
-		//expect('Not Implemented').toBeNull();
+		openSecureStorage('test', AES_256, key64, function(store){
+			store.setItem('aValue', 'someValue');
+			var expires = new Date();
+    		expires.setFullYear(expires.getFullYear() - 1);
+
+			store.setExpiration(expires);
+		});
+
+		openSecureStorage('test', AES_256, key64, function(store){
+			expect(store).toBeDefined();
+
+			var value = store.getItem('aValue');
+			expect(value).toBeNull();
+		});
 	});		
 })

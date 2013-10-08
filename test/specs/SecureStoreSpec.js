@@ -3,11 +3,13 @@ describe('The Secure Store', function() {
 
 	var store;
 
+	var expires;
+
 	beforeEach(function(){
 		var stubStore = {};
 		stubStore['exists'] = JSON.stringify({prop: 'value'});
 
-		store = new SecureStore(stubStore);
+		store = new SecureStore(stubStore, function(value) { expires = value } );
 	});
 
 
@@ -41,7 +43,6 @@ describe('The Secure Store', function() {
 
 	it('allows access to the number of stored objects', function() {
 		expect(store.length).toBe(1);
-		console.log(store.length);
 
 		store.setItem('new', 5);
 		expect(store.length).toBe(2);
@@ -72,15 +73,19 @@ describe('The Secure Store', function() {
 
 
 	it('allows setting an expiry date for the store', function() {
-		var expires = new Date();
-    	expires.setFullYear(expires.getFullYear() + 1);
+		var expiresValue = new Date();
+    	expiresValue.setFullYear(expiresValue.getFullYear() + 1);
 
-		store.setExpiration(expires);
+		store.setExpiration(expiresValue);
+
+		expect(expires).toBe(expiresValue);
 	});
 
 
 	it('allows clearing the expiry date for the store', function() {
 		store.setExpiration(null);
+
+		expect(expires).toBeNull();
 	});
 
 });

@@ -1,4 +1,4 @@
-function SecureStore(store)
+function SecureStore(store, setExpires)
 {
 
 	this.getItem = function(key)
@@ -59,7 +59,7 @@ function SecureStore(store)
 
 	this.setExpiration = function(value)
 	{
-		expires = value;
+		setExpires(value);
 	}
 
 
@@ -67,8 +67,6 @@ function SecureStore(store)
 	/* PRIVATE */
 
 	var items = 0;
-
-	var expires = null;
 
 	// Count items
 	for (var key in store)

@@ -42,6 +42,10 @@ if (!global.openSecureStorage)
 			removeStore(storeName);
 		});	
 	}
+
+
+	// Setup expired checker
+	global.addEventListener('load', setTimeout(checkExpired, 10000), false);
 }
 
 
@@ -52,9 +56,21 @@ var SECURE_STORE_PREFIX = 'securedStore_';
 
 var SECURE_STORE_LOCK_POSTFIX = '_locked';
 
+var SECURE_STORE_EXPIRES_MAP_POSTFIX = 'expires_map';
+
 
 function openStore(storeName, cypher, key, callBack)
 {		
+
+	if (storeName === SECURE_STORE_EXPIRES_MAP_POSTFIX)
+		throw new Error('Store name "' + SECURE_STORE_EXPIRES_MAP_POSTFIX + '" is reserved');
+
+	var expires = readExpires(storeName);
+
+	// if expired, remove the store
+	var now = new Date();
+	if (expires && expires < now)
+		removeStore(storeName);
 
 	// Open the Store
 	var store = readStore(storeName, cypher, key);
@@ -65,7 +81,7 @@ function openStore(storeName, cypher, key, callBack)
 	// Allow access to read/write items
 	try
 	{
-		callBack(new SecureStore(store));
+		callBack(new SecureStore(store, function(value) { expires = value } ));
 	}
 	catch (error)
 	{
@@ -75,6 +91,7 @@ function openStore(storeName, cypher, key, callBack)
 	{
 		// Close the store
 		writeStore(storeName, cypher, key, store);
+		updateExpires(storeName, expires);
 	}		
 }
 
@@ -150,5 +167,61 @@ function lock(storeName, callBack, tries)
 }
 
 
+function readExpires(storeName)
+{
+	try
+	{
+		var expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
+	}
+	catch(error)
+	{	
+		var expiresMap = null;
+	}
 
+	if (expiresMap)
+	{
+		if (expiresMap.hasOwnProperty(storeName))
+			return new Date(expiresMap[storeName]);
+	}
+
+	return null;
+}
+
+
+function updateExpires(storeName, expires)
+{
+	try
+	{
+		var expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
+	}
+	catch(error)
+	{	
+		var expiresMap = null;
+	}
+
+	if (expires)
+	{
+		if (!expiresMap)
+			expiresMap = {};
+
+		expiresMap[storeName] = expires.getTime();
+
+		localStorage.setItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX, JSON.stringify(expiresMap));
+	}
+	else
+	{
+		if (expiresMap)
+		{
+			delete expiresMap[storeName];
+
+			localStorage.setItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX, JSON.stringify(expiresMap));
+		}	
+	}
+}
+
+
+function checkExpired()
+{
+
+}
 
