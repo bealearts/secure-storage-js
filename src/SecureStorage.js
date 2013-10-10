@@ -222,6 +222,30 @@ function updateExpires(storeName, expires)
 
 function checkExpired()
 {
+	try
+	{
+		var expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
+	}
+	catch(error)
+	{	
+		var expiresMap = null;
+	}
 
+	if (expiresMap)
+	{
+		var now = new Date();
+		for (var storeName in expiresMap)
+		{
+			if (expiresMap.hasOwnProperty(storeName))
+			{
+				if (expiresMap[storeName] && expiresMap[storeName] < now)
+				{
+					delete expiresMap[storeName];	
+				}	
+			}
+		}
+
+		localStorage.setItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX, JSON.stringify(expiresMap));
+	}
 }
 
