@@ -6,6 +6,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-release');
 
 
   // Temp dir
@@ -16,7 +18,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig(
   {
-    packkage: grunt.file.readJSON('package.json'),
     clean: {
       build: {
         src: ['build']
@@ -42,12 +43,27 @@ module.exports = function(grunt) {
         }
       }
     },
+    jshint: {
+      src: ['build/**/*.js'],
+      options: {
+        curly: true,
+        eqeqeq: true,
+        eqnull: true,
+        browser: true
+      }
+    },
     watch: {
       main: {
           files: ['*.*', 'src/**/*.*'],
           tasks: 'build'
       }
     },
+    release: {
+      options: {
+        npm: false,
+        file: 'bower.json'
+      }
+    }
   });
 
 
@@ -56,11 +72,13 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
         'clean',
         'concat',
+        'jshint',
         'jasmine'
   ]);
 
   grunt.registerTask('deploy', [
-        'build'
+        'build',
+        'release'
   ]);
 
   grunt.registerTask('default', [

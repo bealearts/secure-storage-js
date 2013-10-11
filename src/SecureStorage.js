@@ -15,20 +15,25 @@ if (!global.openSecureStorage)
 {
 	global.openSecureStorage = function(storeName, cypher, key, callBack)
 	{
-		if (arguments.length == 4)
-			var secureKey = sjcl.codec.base64.toBits(key);
-		else if (arguments.length == 3)
+		var secureKey;
+		if (arguments.length === 4)
 		{
-			var secureKey = cypher;
-			var callBack = key;
-			var cypher = AES_256;
+			secureKey = sjcl.codec.base64.toBits(key);
+		}
+		else if (arguments.length === 3)
+		{
+			secureKey = cypher;
+			callBack = key;
+			cypher = AES_256;
 		}
 		else
+		{
 			throw new Error('Expects either 4 or 3 argumetns. Got ' + argumetns.length);	
+		}
 
 		// Simulate Async. If waiting on a lock than will really be async!
 		setTimeout(lock(storeName, function() {
-			openStore(storeName, cypher, secureKey, callBack)
+			openStore(storeName, cypher, secureKey, callBack);
 		}, 0), 1);
 	};
 
@@ -41,7 +46,7 @@ if (!global.openSecureStorage)
 		
 			removeStore(storeName);
 		});	
-	}
+	};
 
 
 	// Setup expired checker
@@ -63,29 +68,37 @@ function openStore(storeName, cypher, key, callBack)
 {		
 
 	if (storeName === SECURE_STORE_EXPIRES_MAP_POSTFIX)
+	{
 		throw new Error('Store name "' + SECURE_STORE_EXPIRES_MAP_POSTFIX + '" is reserved');
+	}
 
 	var expires = readExpires(storeName);
 
 	// if expired, remove the store
 	var now = new Date();
 	if (expires && expires < now)
+	{
 		removeStore(storeName);
+	}
 
 	// Open the Store
 	var store = readStore(storeName, cypher, key);
 
 	if (!store)
+	{
 		store = {};
+	}
 
 	// Allow access to read/write items
 	try
 	{
-		callBack(new SecureStore(store, function(value) { expires = value } ));
+		callBack(new SecureStore(store, function(value) { 
+			expires = value; 
+		} ));
 	}
 	catch (error)
 	{
-		console.log(error)
+		console.log(error);
 	}
 	finally
 	{
@@ -123,7 +136,9 @@ function readStore(storeName, cypher, secureKey)
 		}
 	}
 	else
+	{
 		return {};
+	}
 } 
 
 
@@ -169,19 +184,22 @@ function lock(storeName, callBack, tries)
 
 function readExpires(storeName)
 {
+	var expiresMap;
 	try
 	{
-		var expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
+		expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
 	}
 	catch(error)
 	{	
-		var expiresMap = null;
+		expiresMap = null;
 	}
 
 	if (expiresMap)
 	{
 		if (expiresMap.hasOwnProperty(storeName))
+		{
 			return new Date(expiresMap[storeName]);
+		}
 	}
 
 	return null;
@@ -190,19 +208,22 @@ function readExpires(storeName)
 
 function updateExpires(storeName, expires)
 {
+	var expiresMap;
 	try
 	{
-		var expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
+		expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
 	}
 	catch(error)
 	{	
-		var expiresMap = null;
+		expiresMap = null;
 	}
 
 	if (expires)
 	{
 		if (!expiresMap)
+		{
 			expiresMap = {};
+		}
 
 		expiresMap[storeName] = expires.getTime();
 
@@ -222,13 +243,14 @@ function updateExpires(storeName, expires)
 
 function checkExpired()
 {
+	var expiresMap;
 	try
 	{
-		var expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
+		expiresMap = JSON.parse(localStorage.getItem(SECURE_STORE_PREFIX + SECURE_STORE_EXPIRES_MAP_POSTFIX));
 	}
 	catch(error)
 	{	
-		var expiresMap = null;
+		expiresMap = null;
 	}
 
 	if (expiresMap)

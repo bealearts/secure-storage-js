@@ -6,9 +6,13 @@ function SecureStore(store, setExpires)
 		var raw = store[key];
 		
 		if (raw)	
+		{
 			return JSON.parse(raw);
+		}
 		else
+		{
 			return null;
+		}
 	};
 
 
@@ -19,7 +23,9 @@ function SecureStore(store, setExpires)
 		store[key] = JSON.stringify(item);
 
 		if (!previous)
-			items++; 
+		{
+			items++;
+		} 
 	};
 
 
@@ -27,11 +33,11 @@ function SecureStore(store, setExpires)
 	{
 		delete store[key];
 		items--;
-	}	
+	};	
 
 
 	Object.defineProperty(this, 'length', {
-		get: function () { return items }
+		get: function () { return items; }
 	});
 	
 
@@ -39,7 +45,7 @@ function SecureStore(store, setExpires)
 	{
 		store = {};
 		items = 0;
-	}
+	};
 
 
 	this.key = function(index) 
@@ -47,20 +53,22 @@ function SecureStore(store, setExpires)
 		var count = 0;
 		for (var key in store)
 		{
-			if (count == index)
+			if (count === index)
+			{
 				return key;
+			}
 
 			count++;
 		}
 
 		return null;
-	}
+	};
 
 
 	this.setExpiration = function(value)
 	{
 		setExpires(value);
-	}
+	};
 
 
 
@@ -72,7 +80,9 @@ function SecureStore(store, setExpires)
 	for (var key in store)
 	{
 		if (store.hasOwnProperty(key))
+		{
 			items++;
+		}
 	}
 
 	Object.freeze(this);
