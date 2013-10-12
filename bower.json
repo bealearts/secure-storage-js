@@ -3,12 +3,11 @@
   "version": "0.0.1",
   "main": "dist/secure-storage.js",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests",
-    "src"
+    "**/*",
+    "!README.md",
+    "!LICENSE",
+    "!bower.json",
+    "!dist/secure-storage.js"
   ],
   "dependencies": {
     "sjcl": "*"
