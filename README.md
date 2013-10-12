@@ -26,7 +26,7 @@ openSecureStorage('myStore', AES_256, secureKey, function(store) {
 ```
 ```js
 /**
- *	Simplified foramt, using a plain text password and AES_256 cypher
+ *	Simplified format, using a plain text password and AES_256 cypher
  */
 openSecureStorage('myStore', 'MyP4ssw0rd', function(store) {
 	
