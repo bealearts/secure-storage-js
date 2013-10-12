@@ -1,13 +1,14 @@
 {
   "name": "secure-storage-js",
   "version": "0.0.0",
-  "main": "secure-storage.js",
+  "main": "dist/secure-storage.js",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "src"
   ],
   "dependencies": {
     "sjcl": "*"

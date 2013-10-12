@@ -20,7 +20,7 @@ module.exports = function(grunt) {
   {
     clean: {
       build: {
-        src: ['build']
+        src: ['build', 'dist']
       }
     },
     concat: {
@@ -30,12 +30,12 @@ module.exports = function(grunt) {
           footer: '\n\n}(this));'
         },
         src: ['src/**/*.js'],
-        dest: 'build/secure-storage.js'
+        dest: 'dist/secure-storage.js'
       }
     },
     jasmine: {
       test: {
-        src: ['build/**/*.js', 'src/SecureStore.js'],
+        src: ['dist/**/*.js', 'src/SecureStore.js'],
         options: {
           specs: 'test/specs/*Spec.js',
           vendor: 'bower_components/sjcl/sjcl.js',
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      src: ['build/**/*.js'],
+      src: ['dist/**/*.js'],
       options: {
         curly: true,
         eqeqeq: true,
