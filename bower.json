@@ -1,6 +1,6 @@
 {
   "name": "secure-storage-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/secure-storage.js",
   "ignore": [
     "**/*",
