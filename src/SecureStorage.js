@@ -24,11 +24,11 @@ if (!global.openSecureStorage)
 		{
 			secureKey = cypher;
 			callBack = key;
-			cypher = AES_256;
+			cypher = global.AES_256;
 		}
 		else
 		{
-			throw new Error('Expects either 4 or 3 argumetns. Got ' + argumetns.length);	
+			throw new Error('Expects either 4 or 3 argumetns. Got ' + arguments.length);
 		}
 
 		// Simulate Async. If waiting on a lock than will really be async!
@@ -42,8 +42,7 @@ if (!global.openSecureStorage)
 	global.removeSecureStorage = function(storeName)
 	{
 
-		lock(storeName, function() {
-		
+		lock(storeName, function() {		
 			removeStore(storeName);
 		});	
 	};
@@ -92,8 +91,8 @@ function openStore(storeName, cypher, key, callBack)
 	// Allow access to read/write items
 	try
 	{
-		callBack(new SecureStore(store, function(value) { 
-			expires = value; 
+		callBack(new SecureStore(store, function(value) {
+			expires = value;
 		} ));
 	}
 	catch (error)
@@ -111,7 +110,7 @@ function openStore(storeName, cypher, key, callBack)
 
 function removeStore(storeName)
 {
-	localStorage.removeItem(SECURE_STORE_PREFIX+storeName);	
+	localStorage.removeItem(SECURE_STORE_PREFIX+storeName);
 }
 
 

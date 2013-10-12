@@ -53,12 +53,15 @@ function SecureStore(store, setExpires)
 		var count = 0;
 		for (var key in store)
 		{
-			if (count === index)
+			if (store.hasOwnProperty(key))
 			{
-				return key;
-			}
+				if (count === index)
+				{
+					return key;
+				}
 
-			count++;
+				count++;
+			}
 		}
 
 		return null;

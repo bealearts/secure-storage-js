@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     concat: {
       build: {
         options: {
-          banner: '(function(global){\n\n"use strict";\n\n',
+          banner: '(function(global){\n\n\'use strict\';\n\n',
           footer: '\n\n}(this));'
         },
         src: ['src/**/*.js'],
@@ -49,7 +49,21 @@ module.exports = function(grunt) {
         curly: true,
         eqeqeq: true,
         eqnull: true,
-        browser: true
+        browser: true,
+        camelcase: true,
+        forin: true,
+        latedef: 'nofunc',
+        newcap: true,
+        noarg: true,
+        nonew: true,
+        quotmark: 'single',
+        undef: true,
+        unused: true,
+        strict: true,
+        devel: true,
+        globals: {
+          sjcl: true
+        }
       }
     },
     watch: {
