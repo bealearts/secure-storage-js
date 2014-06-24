@@ -2,7 +2,7 @@
   "name": "secure-storage-js",
   "description": "Pure JS implementation of SecureStorage API",
   "scripts": {
-    "test": "grunt build"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
@@ -22,16 +22,33 @@
   },
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-bower-task": "~0.2.3",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-jasmine": "~0.5.2",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-watch": "~0.4.4",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-bower-task": "~0.2.3",
-    "temporary": "0.0.5",
-    "grunt-contrib-jasmine": "~0.5.2",
-    "grunt-release": "~0.6.0"
+    "grunt-release": "~0.6.0",
+    "jasmine-reporters": "^0.4.1",
+    "temporary": "0.0.5"
+  },
+  "testling": {
+    "scripts": [
+      ".grunt/grunt-contrib-jasmine/jasmine.js",
+      "node_modules/jasmine-reporters/src/jasmine.tap_reporter.js",
+      "bower_components/sjcl/sjcl.js",
+      "dist/secure-storage.js",
+      "src/SecureStore.js",
+      "test/specs/*.js",
+      "test/runner.js"
+    ],
+    "browsers": [
+      "ie/8..latest",
+      "chrome/latest",
+      "firefox/latest"
+    ]
   }
 }
