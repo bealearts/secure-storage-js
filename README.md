@@ -6,6 +6,8 @@ Pure JS implementation of SecureStorage API as inspired by http://www.nczonline.
 
 Encryption provided by [Stanford Javascript Crypto Library](http://crypto.stanford.edu/sjcl/) 
 
+[![browser support](https://ci.testling.com/bealearts/secure-storage-js.png)](https://ci.testling.com/bealearts/secure-storage-js)
+
 Example Usage
 -------------
 ```js
