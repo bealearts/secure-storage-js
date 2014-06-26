@@ -1,9 +1,4 @@
 language: node_js
 
 script:
-  - bower install
-  - grunt build --verbose 
-
-before_script:
-  - npm install -g grunt-cli
-  - npm install -g bower
+  - npm test 
