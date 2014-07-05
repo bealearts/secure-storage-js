@@ -55,4 +55,3 @@ Installation
 ```shell
 bower install secure-storage-js --save
 ```    
-
