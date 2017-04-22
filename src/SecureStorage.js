@@ -47,7 +47,7 @@ if (!global.openSecureStorage)
 		});	
 	};
 	
-	var delayedExpirationCheck = function() {
+	function delayedExpirationCheck() {
 		setTimeout(checkExpired, 10000);
 	}
 	
