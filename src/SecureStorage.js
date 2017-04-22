@@ -47,9 +47,9 @@ if (!global.openSecureStorage)
 		});	
 	};
 	
-	function delayedExpirationCheck() {
+	var delayedExpirationCheck = function() {
 		setTimeout(checkExpired, 10000);
-	}
+	};
 	
 	// Setup expired checker
 	global.addEventListener('load', delayedExpirationCheck, false);
